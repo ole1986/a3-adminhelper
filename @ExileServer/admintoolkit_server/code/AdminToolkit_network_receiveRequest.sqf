@@ -68,7 +68,7 @@ try
 		};
 		//get position player and save in clipboard
 		case "getposplayer": {
-			copyToClipboard format ["%1",getPos player];
+			copyToClipboard format ["%1",getPos _player];
 		};
 		// Teleport the player defined in parameter 0 to players position defined in parameter 2
 		// Example: [player, 'tp2player', <string playername>]
