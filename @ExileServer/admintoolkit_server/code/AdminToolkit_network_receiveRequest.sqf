@@ -66,6 +66,10 @@ try
 			
 			[_request, _tmp] remoteExecCall ['AdminToolkit_network_receiveResponse', owner _player];
 		};
+		//get position player and save in clipboard
+		case "getposplayer": {
+			copyToClipboard format ["%1",getPos _player];
+		};
 		// Teleport the player defined in parameter 0 to players position defined in parameter 2
 		// Example: [player, 'tp2player', <string playername>]
         case "tp2player": 
@@ -87,7 +91,7 @@ try
 		// Teleport the admin to coordinates ATL using parameter 2
 		// Example: [player, 'tp2pos', <array position>]
         case "tp2pos": {
-            _player setPosATL _params;
+            vehicle _player setPosATL _params;
         };
 		// spawn a vehicle with className defined in parameter 2 near the admin
 		// Example: [player, 'getvehicle', <string vehicleClass>]
