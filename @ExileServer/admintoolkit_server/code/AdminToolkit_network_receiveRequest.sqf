@@ -66,6 +66,10 @@ try
 			
 			[_request, _tmp] remoteExecCall ['AdminToolkit_network_receiveResponse', owner _player];
 		};
+		//get position player and save in clipboard
+		case "getposplayer": {
+			copyToClipboard format ["%1",getPos player];
+		};
 		// Teleport the player defined in parameter 0 to players position defined in parameter 2
 		// Example: [player, 'tp2player', <string playername>]
         case "tp2player": 
