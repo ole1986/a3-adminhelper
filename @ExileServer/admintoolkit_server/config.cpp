@@ -39,14 +39,69 @@ class CfgSettings
         /**
          * list of allowed admins using its player UID (default: me)
          */
-        AdminList[] = {"76561198037325738"};
+        AdminList[] = {"xxxxx"};
         /**
          * list of admins with restricted access only
          */
-        ModeratorList[] = {};
+        ModeratorList[] = {"xxxxx","xxxxx"};
         /**
 		 * allowed commands for moderators (default: login, teleport to a player, get a vehicle, get player list, spectate a player)
 		 */
-        ModeratorCmds[] = {"login","getplayers","tp2player", "getvehicle", "kickplayer", "specplayer", "specstop"};
+        ModeratorCmds[] = {
+		//standart commands
+			//adminowncommands
+			"login",
+			"godmodeon",
+			"godmodeoff",
+			//"getheal",
+			//"getkill",
+			"getposplayer",
+			"tp2pos",
+			//playercommands
+			"getplayers",
+			"kickplayer",
+			"banplayer",
+			"specplayer",
+			"tp2player",
+			"tpplayer",
+			//Vehicle
+			"getvehicle",
+			/*"givevehicle",
+			"destvehicle",
+			"delvehicle",
+			//Weapons
+			"getweapon",
+			"getammo",
+			//Items
+			"getitem",
+			//others
+			"spawn",
+			//build
+			"build",
+			"buildremove",
+			"buildpersistent",
+			"buildinfopersistent",
+			"clearpersistent",
+			"savepersistent",
+			"buildabort",*/
+		//exile commands
+			//adminowncommands
+			"exile_getheal",
+			"exile_getkill",
+			"exile_getmoney",
+			"exile_getscore",
+			//Vehicles
+			"exile_getvehicle",
+			"exile_repvehicle",
+			"exile_destvehicle",
+			"exile_delvehicle",
+			//Players
+			"exile_givheal",
+			"exile_givkill",
+			"exile_givscore",
+			"exile_takescore",
+			"exile_givmoney",
+			"exile_takemoney"
+		};		
     };
 };
