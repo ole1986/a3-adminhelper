@@ -47,39 +47,61 @@ class CfgSettings
         /**
 		 * allowed commands for moderators (default: login, teleport to a player, get a vehicle, get player list, spectate a player)
 		 */
-        //ModeratorCmds[] = {"login","getplayers","tp2player", "getvehicle", "kickplayer", "specplayer", "specstop"};
-		//ModeratorCmds[] = {"login", "getplayers", "tp2player", "tpplayer", "tp2pos", "getvehicle", "givevehicle", "exile_getvehicle", "getweapon", "getammo", "kickplayer", "playersCallback", "specplayer", "specstop", "exile_getmoney","exile_delvehicle", "exile_getscore"};
         ModeratorCmds[] = {
+		//standart commands
+			//adminowncommands
 			"login",
+			"godmodeon",
+			"godmodeoff",
+			//"getheal",
+			//"getkill",
+			"getposplayer",
+			"tp2pos",
+			//playercommands
+			"getplayers",
 			"kickplayer",
-			"banplayer", 
-			"getplayers", 
-			"tp2pos", 
-			"tp2player", 
-			"tpplayer", 
-			"getammo", 
-			"getweapon", 
-			"getvehicle", 
-			//"givevehicle", 
-			"godmodeoff", 
-			"godmodeon", 
-			"specplayer", 
-			"specstop", 
-			//"build",
-			//"buildremove",
-			//"buildpersistent",
-			//"buildinfopersistent",
-			//"clearpersistent",
-			//"savepersistent",
-			//"buildabort"
+			"banplayer",
+			"specplayer",
+			"tp2player",
+			"tpplayer",
+			//Vehicle
+			"getvehicle",
+			/*"givevehicle",
+			"destvehicle",
+			"delvehicle",
+			//Weapons
+			"getweapon",
+			"getammo",
+			//Items
+			"getitem",
+			//others
+			"spawn",
+			//build
+			"build",
+			"buildremove",
+			"buildpersistent",
+			"buildinfopersistent",
+			"clearpersistent",
+			"savepersistent",
+			"buildabort",*/
+		//exile commands
+			//adminowncommands
+			"exile_getheal",
+			"exile_getkill",
+			"exile_getmoney",
+			"exile_getscore",
+			//Vehicles
 			"exile_getvehicle",
 			"exile_repvehicle",
-			"exile_delvehicle",
 			"exile_destvehicle",
-			"exile_getmoney",
-			"exile_getheal",
-			"exile_getscore",
-			"exile_kill"
-		};
+			"exile_delvehicle",
+			//Players
+			"exile_givheal",
+			"exile_givkill",
+			"exile_givscore",
+			"exile_takescore",
+			"exile_givmoney",
+			"exile_takemoney"
+		};		
     };
 };
