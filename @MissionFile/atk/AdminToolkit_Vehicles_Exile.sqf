@@ -7,29 +7,6 @@ private['_result'];
 disableSerialization;
 _result = [];
 
-/** 
- * SEARCH
- *
- * 1801 = Search text
- * 1802 = Search button
- *
- * LISTBOX
- *
- * 1500 = Listbox
- *
- * LOWER BUTTONS IDC
- *
- * ----------------------
- * | 1701 | 1702 | 1703 |
- * ----------------------
- * | 1704 | 1705 | 1706 |
- * ----------------------
- * ----------  ----------
- * |  1707  |  |  1708  |
- * ----------  ----------
- *
- */
-
 if (['exile_repvehicle'] call AdminToolkit_hasPermission) then {
     [1701, "Repair", "[player, 'exile_repvehicle', cursorObject] remoteExecCall ['AdminToolkit_network_receiveRequest', 2];"] call AdminToolkit_uiButton;
 };

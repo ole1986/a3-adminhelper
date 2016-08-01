@@ -7,7 +7,7 @@
  * This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.
  */
  
-private["_payload","_adminList", "_moderatorList", "_moderatorCmds","_player","_request", "_params","_result", "_tmp", "_mod"];
+private["_safepos","_payload","_adminList", "_moderatorList", "_moderatorCmds","_player","_request", "_params","_result", "_tmp", "_mod"];
 _payload = _this;
 _adminList = getArray(configFile >> "CfgSettings" >> "AdminToolkit" >> "AdminList");
 _moderatorList = getArray(configFile >> "CfgSettings" >> "AdminToolkit" >> "ModeratorList");
@@ -39,6 +39,14 @@ try
 		{
 			// send login ok with moderator cmdlets
 			['loginok', _moderatorCmds] remoteExecCall ['AdminToolkit_network_receiveResponse', owner _player];
+		};
+		case 'message': {
+			_tmp = [_params select 0] call AdminToolkit_network_fetchPlayer;
+			['message', [_params select 1, format["<t size='1.5'>Sender: %1</t>", name _player]]] remoteExecCall ['AdminToolkit_network_receiveResponse', owner _tmp];
+		};
+		case 'messageall': {
+			diag_log format ["[ADMINTOOLKIT] messageall params: %1 ", str _params];
+			['message', [_params, format["<t size='1.5'>Sender: %1</t>", name _player]]] remoteExecCall ['AdminToolkit_network_receiveResponse', -2];
 		};
 		// Kick player from server
 		// Example: [player, 'kickplayer', <string playername>]
@@ -87,20 +95,30 @@ try
 		// Teleport the admin to coordinates ATL using parameter 2
 		// Example: [player, 'tp2pos', <array position>]
         case "tp2pos": {
-            vehicle _player setPosATL _params;
+			//search safe Position for Vehicle Teleport
+			if (vehicle _player != _player) then 
+			{
+				_safepos = [_params, 1, 20, 5, 1, 0, 0] call BIS_fnc_findSafePos;
+				vehicle _player setPos _safepos;
+			} else {
+				_player setPos _params;
+			};
         };
 		// spawn a vehicle with className defined in parameter 2 near the admin
 		// Example: [player, 'getvehicle', <string vehicleClass>]
         case "getvehicle": {
-            
-             _result = _params createVehicle position _player;
+            //find save position for the vehicle
+			_safepos = [position _player, 1, 20, 5, 1, 0, 0] call BIS_fnc_findSafePos;
+             _result = _params createVehicle _safepos;
         };
 		// spawn a vehicle at the position of another player
 		// Example: [player, 'givevehicle', [<string vehicleClass>, <string playername>]]
         case "givevehicle": {
             _tmp = [_params select 1] call AdminToolkit_network_fetchPlayer;
 			if(!isNil "_tmp") then {
-				(_params select 0) createVehicle position _tmp;
+				//find save position for the vehicle
+				_safepos = [position _tmp, 1, 20, 5, 1, 0, 0] call BIS_fnc_findSafePos;
+				(_params select 0) createVehicle position _safepos;
 			};
         };
 		// get a weapon for admin who called this command
@@ -206,12 +224,16 @@ try
 			["godmode", false] remoteExecCall ['AdminToolkit_network_receiveResponse', owner _player];
 		};
 		// used for mod extensions
-		default { 
-			if(isClass(missionConfigFile >> "CfgAdminToolkitCustomMod")) then {
-				if(isText(missionConfigFile >> "CfgAdminToolkitCustomMod" >> "AdminToolkit_ModEnable")) then {
-					_tmp = toLower getText(missionConfigFile >> "CfgAdminToolkitCustomMod" >> "AdminToolkit_ModEnable");
-					_mod = compile preprocessFileLineNumbers ("admintoolkit_server\code\AdminToolkit_server_" + _tmp + ".sqf");
-					[_player, _request, _params] call _mod;
+		default {
+			// load additional extension entries into the main menu (if available)
+			if(isClass(missionConfigFile >> 'CfgAdminToolkitCustomMod')) then {
+				if(isArray(missionConfigFile >> 'CfgAdminToolkitCustomMod' >> 'Extensions')) then {
+					_extensions = getArray(missionConfigFile >> 'CfgAdminToolkitCustomMod' >> 'Extensions');
+					{
+						_tmp = _x select 1;
+						_mod = compileFinal preprocessFileLineNumbers format["admintoolkit_server\ext\%1.sqf", _tmp];
+						[_player, _request, _params] call _mod;
+					} forEach _extensions;
 				};
 			};
 		};

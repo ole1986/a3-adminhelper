@@ -18,7 +18,7 @@ switch (_this select 1) do
         _handled = true;
         if (!dialog) then {
             createDialog "AdminToolkitMenu";
-            [] call AdminToolkit_buttonEvents;
+            call AdminToolkit_initMenu;
         } else {
             closeDialog 0;
         };
@@ -27,10 +27,10 @@ switch (_this select 1) do
     case 0x3F:
     {
         _handled = true;
-        // used to repeat build the same object
-        if(AdminToolkitIsBuilding <= 0 and AdminToolkit_lastSelection != '' and AdminToolkit_lastAction != '') then {
-            systemChat format["Repeating action '%1' with '%2'", AdminToolkit_lastAction, AdminToolkit_lastSelection];
-            [AdminToolkit_lastAction, AdminToolkit_lastSelection] call AdminToolkit_buttonAction;
+        // used to repeat building the same object
+        if((AdminToolkitIsBuilding <= 0) and (count AdminToolkit_LastAction > 1)) then {
+            systemChat format["Repeating action '%1' with '%2'", AdminToolkit_LastAction select 0, AdminToolkit_LastAction select 1];
+            AdminToolkit_LastAction call AdminToolkit_doAction;
         };
     };
     // Space bar - place object

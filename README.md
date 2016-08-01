@@ -1,5 +1,5 @@
 ## AdminToolkit for Arma 3
-<sup>**Version 1.8** | Author: ole1986 | This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License</sup>
+<sup>**Version 2.0** | Author: ole1986 | This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License</sup>
 
 This tool is used to administrate Arma3 multiplayer servers. 
 It also supports an option to overwrite the sections for additional features. 
@@ -8,10 +8,9 @@ It also supports an option to overwrite the sections for additional features.
 
 **<p align="center">PRESS THE F2 KEY TO OPEN IN-GAME</p>**
 
-<img src="images/a3-atk-players.jpg" width="210" title="Manage players">
-<img src="images/a3-atk-vehicles.jpg" width="210" title="Spawn vehicles">
-<img src="images/a3-atk-weapons.jpg" width="210" title="Get weapons">
-<img src="images/a3-atk-construct.jpg" width="210" title="Construction">
+<img src="images/a3-atk-newdesign.png" width="210" title="New design">
+<img src="images/a3-atk-players.png" width="210" title="Manage players">
+<img src="images/a3-atk-vehicles.png" width="210" title="Spawn vehicles">
 
 <p align="center">
 Video<br/>

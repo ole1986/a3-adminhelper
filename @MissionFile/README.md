@@ -5,73 +5,45 @@ To achieve this a configuration class `CfgAdminToolkitCustomMod` is required in 
  
 ```
 class CfgAdminToolkitCustomMod {
-	// Used to replace the top menu button text (optional)
-	//AdminToolkit_MenuTitle[] = {"Players", "Vehicles", "Weapons", "AI", "Buildings", "Items"};
+	/* Exclude some main menu items
+	 * To only show the menus loaded from an extension, use:
+	 * 
+	 * ExcludeMenu[] = {"Players", "Vehicles", "Weapons" , "Other"};
+	 */
+	ExcludeMenu[] = {};
 	
-	// Used for server-side execution (optional)
-	//AdminToolkit_ModEnable = "";
-	
-	//AdminToolkit_Mod_Players = "";
-	AdminToolkit_Mod_Vehicles = "atk\AdminToolkit_Vehicles_Demo.sqf";
-	//AdminToolkit_Mod_Weapons = "";
-	//AdminToolkit_Mod_Custom = "";
-	//AdminToolkit_Mod_Other = "";
-	//AdminToolkit_Mod_Items = "";
+	/* Load an additional sqf file as MOD */
+	Extensions[] = {
+		/**
+		 * Usage: "<Your Mod Title>", "<YourModFileWithoutExt>.sqf"
+		 */
+		/* Example for "ExileMod" using the "atk\ExileMod.sqf" */
+		{"Exile Mod","ExileMod"}
+	};
+
+	/* 4 Quick buttons allowing to add any action you want - See example below*/
+	QuickButtons[] = {
+		/* send a chat message to selected player containing 'Test 123' */
+		{"Chat", "['message', [AdminToolkit_Player, 'Test 123']] call AdminToolkit_doAction"},
+		/* send a message to everyone using the parameter text field */
+		{"Msg To All", "['messageall', AdminToolkit_Params] call AdminToolkit_doAction"},
+		/* Quickly get a Helicopter */
+		{"Heli", "['getvehicle', 'B_Heli_Light_01_armed_F'] call AdminToolkit_doAction"},
+		/*4 button*/
+		{"Empty", "['Command', 'Variable'] call AdminToolkit_doAction"}
+	};
 };
 ```
 
-This causes the script <a href="atk/AdminToolkit_Vehicles_Demo.sqf">AdminToolkit_Vehicles_Demo.sqf</a> to be executed when user opens the `Vehicles` section.
+**Extensions**
 
-## Authorized server request (bypass battleye)
+This property is used to load additional extensions located in the MissionFile `atk` folder.
+From server it will also include the same file in `ext` folder to execute global commands.
 
-Scripts defined above are usually executed from client.
+**QuickButtons**
 
-To make it more secure and also make sure only authorized players (Admin/Moderator) are allowed to execute, it is recommended to build an **additional server extension script**.
+Allows you to overwrite the four quick buttons with some custom commands
 
-To achieve this it is neccessary to define the `AdminToolkit_ModEnable` property located in the `CfgAdminToolkitCustomMod` class
 
-**Example**
-```
-// define to allow server-side execution of AdminToolkit_server_myExtension.sqf
-AdminToolkit_ModEnable = "myExtension";
-```
 
-Save the below file into server's admintoolkit.pbo
-
-```
-// File: @ExileServer\admintoolkit\code\AdminToolkit_server_myExtension.sqf
-private['_playerObject','_request', '_params'];
-_playerObject = _this select 0;
-_request = _this select 1;
-_params = _this select 2;
-
-try 
-{
-    switch (_request) do {
-		case 'myExtension_action1': 
-		{
-            // output player name in server log
-			diag_log format["Player: %1", name _playerObject];
-		};
-		case 'myExtension_action2': 
-		{
-			// yet another action
-		};
-    };
-}
-catch
-{
-    diag_log format["[ADMINTOOLKIT-MOD]: EXCEPTION: %1", _exception];
-};
-
-true;
-```
-
-To pass the call it uses the arma feature known as "Remote Execution".
-
-**Example call from client**
-```
-// use the below line to call action1 from myExtension which should print out player name in server log
-[player, "myExtension_action1", []] remoteExecCall ['AdminToolkit_network_receiveRequest', 2];
-```
 

@@ -7,28 +7,34 @@
  * This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.
  */
 
-private['_listboxId','_selectedArgs', '_section', '_display','_lbText', '_lbValue', '_tmp', '_tmp2'];
-_listboxId = _this select 0;
-_selectedArgs = _this select 1;
-_section = _this select 2;
+private['_menuIndex', '_menuName', '_index', '_text', '_value', '_tmp', '_tmp2'];
 _display = findDisplay 40000;
 
+_menuIndex = lbCurSel RscAdminToolkitMainMenu_IDC;
+_menuName = lbText [RscAdminToolkitMainMenu_IDC, _menuIndex];
+_menuName = toLower _menuName;
 
-_lbText = (_selectedArgs select 0) lbText (_selectedArgs select 1);
-_lbValue = (_selectedArgs select 0) lbData (_selectedArgs select 1);
+// get the current selected index of the "players" listbox
+_index = lbCurSel RscAdminToolkitList_IDC;
+_text = lbText [RscAdminToolkitList_IDC, _index];
+_value = lbData [RscAdminToolkitList_IDC, _index];
 
-switch (_section) do {
-    case 'player': {
+AdminToolkit_Selection = _value;
+
+switch (_menuName) do {
+    case 'players': {
         // set the selected player globally to use it in other sections
-        AdminToolkit_selectedPlayer = _lbText;
-        (_display displayCtrl 1803) ctrlSetStructuredText parseText format["Selected Player: <t color='#FF0066'>%1</t>", AdminToolkit_selectedPlayer];
+        AdminToolkit_Player = _text;
+        (_display displayCtrl RscAdminToolkitInfo_IDC) ctrlSetStructuredText parseText format["Player: <t color='#FF0066'>%1</t> selected", AdminToolkit_Player];
     };
-    case 'building': {
+    case 'buildings': {
         // display some more information when building is selected
-        _tmp = getText(configFile >> "CfgVehicles" >> _lbValue >> "author");
-        _tmp2 = getText(configFile >> "CfgVehicles" >> _lbValue >> "vehicleClass");
+        _tmp = getText(configFile >> "CfgVehicles" >> _value >> "author");
+        _tmp2 = getText(configFile >> "CfgVehicles" >> _value >> "vehicleClass");
         
-        (_display displayCtrl 1803) ctrlSetStructuredText parseText format["<t color='#FF0066'>%1</t> (%3)<br /><t size='0.8'>Author: %2</t>", _lbValue, _tmp, _tmp2];
+        (_display displayCtrl RscAdminToolkitActionLabel_IDC) ctrlSetStructuredText parseText format["<t color='#FF0066'>%1</t> (%3)<br /><t size='0.8'>Author: %2</t>", _value, _tmp, _tmp2];
     };
-    default { _result = nil; };
+    default {
+        (_display displayCtrl RscAdminToolkitActionLabel_IDC) ctrlSetStructuredText parseText "";
+    };
 };

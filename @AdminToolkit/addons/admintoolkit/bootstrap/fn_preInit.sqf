@@ -21,12 +21,16 @@ private ['_code', '_function', '_file'];
 forEach 
 [
 	['AdminToolkit_network_receiveResponse', 'admintoolkit\code\AdminToolkit_network_receiveResponse.sqf'],
-	['AdminToolkit_bindEvents', 'admintoolkit\code\AdminToolkit_bindEvents.sqf'],
-	['AdminToolkit_buttonEvents', 'admintoolkit\code\AdminToolkit_buttonEvents.sqf'],
-	['AdminToolkit_buttonAction', 'admintoolkit\code\AdminToolkit_buttonAction.sqf'],
+	['AdminToolkit_initMenu','admintoolkit\code\AdminToolkit_initMenu.sqf' ],
+	['AdminToolkit_bindKeyEvents', 'admintoolkit\code\AdminToolkit_bindKeyEvents.sqf'],	
+	['AdminToolkit_menuEvents', 'admintoolkit\code\AdminToolkit_menuEvents.sqf'],
+	['AdminToolkit_addMenu', 'admintoolkit\code\AdminToolkit_addMenu.sqf'],
+	['AdminToolkit_doAction', 'admintoolkit\code\AdminToolkit_doAction.sqf'],
+	['AdminToolkit_onExecute', 'admintoolkit\code\AdminToolkit_onExecute.sqf'],
 	['AdminToolkit_listboxChanged', 'admintoolkit\code\AdminToolkit_listboxChanged.sqf'],
+	['AdminToolkit_actionChanged', 'admintoolkit\code\AdminToolkit_actionChanged.sqf'],
 	['AdminToolkit_uiList', 'admintoolkit\code\AdminToolkit_uiList.sqf'],
-	['AdminToolkit_uiButton', 'admintoolkit\code\AdminToolkit_uiButton.sqf'],
+	['AdminToolkit_addAction', 'admintoolkit\code\AdminToolkit_addAction.sqf'],
 	['AdminToolkit_hasPermission', 'admintoolkit\code\AdminToolkit_hasPermission.sqf'],
 	['AdminToolkit_weaponMagazine', 'admintoolkit\code\AdminToolkit_weaponMagazine.sqf'],
     ['AdminToolkit_moveStart', 'admintoolkit\code\AdminToolkit_moveStart.sqf'],
@@ -34,26 +38,6 @@ forEach
     ['AdminToolkit_moveStop', 'admintoolkit\code\AdminToolkit_moveStop.sqf'],
 	['AdminToolkit_spectatePlayer', 'admintoolkit\code\AdminToolkit_spectatePlayer.sqf']
 ];
-
-// used for Addon modifications
-if(isClass (missionConfigFile >> 'CfgAdminToolkitCustomMod')) then {
-	{
-		if(isText (missionConfigFile >> 'CfgAdminToolkitCustomMod' >> _x)) then 
-		{
-			_file = getText (missionConfigFile >> 'CfgAdminToolkitCustomMod' >> _x);
-			_code = compileFinal preprocessFileLineNumbers _file;
-			missionNamespace setVariable [_x, _code];
-		};
-	} forEach 
-	[
-		'AdminToolkit_Mod_Players',
-		'AdminToolkit_Mod_Vehicles',
-		'AdminToolkit_Mod_Weapons',
-		'AdminToolkit_Mod_Custom',
-		'AdminToolkit_Mod_Other',
-		'AdminToolkit_Mod_Items'
-	];
-};
 
 diag_log "AdminToolkit preInit";
 true;
